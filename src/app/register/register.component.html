@@ -1,0 +1,35 @@
+
+
+<form #form="ngForm" >
+    <div  class="form-group">
+        <label for="email">Email</label>
+        <input type="email"  required pattern="^[a-z0-9._]+@[a-z]+\.[a-z.]*" [(ngModel)]="newUser.email" 
+        name="email" class="form-control" [formControl]="email" (click)="log(email.errors)">
+        <ul class="text-danger list-unstyled" *ngIf="email.dirty && email.invalid">
+            <li *ngIf="email.errors?.['pattern']">
+                You entered email incorrect format
+            </li>
+            <li *ngIf="email.errors?.['required']">You must enter email</li>
+        </ul>
+    </div>
+    <div class="form-group">
+        <label for="username">User Name</label>
+        <input type="text" required minlength="5" pattern="^[A-Za-z0-9_]+$" (click)="log(userName.errors)" [(ngModel)]="newUser.username" name="username" class="form-control"
+        [formControl]="userName">
+        <ul class="text-danger list-unstyled" *ngIf="userName.dirty && userName.invalid">
+            <li *ngIf="userName.errors?.['minlength']">User Name must longer than 4 characters</li>
+            <li *ngIf="userName.errors?.['required']">You must enter email</li>
+            <li *ngIf="userName.errors?.['pattern']">You entered invalid characters(like !,@,#,$,%,+,-,., ...)</li>
+        </ul>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" required="true" minlength="8" [(ngModel)]="newUser.password" name="password" 
+        class="form-control" [formControl]="password">
+        <ul class="text-danger list-unstyled" *ngIf="password.dirty && password.invalid">
+            <li *ngIf="password.errors?.['required']">You must enter password</li>
+            <li *ngIf="password.errors?.['minlength']">Your password must has length equal or longer than 8</li>
+        </ul>
+    </div>
+    <button (click)="submitForm()" [disabled]="!isValid" class="btn btn-primary" >Register</button>
+</form>

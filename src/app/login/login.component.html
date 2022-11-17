@@ -1,0 +1,19 @@
+<form >
+    <div  class="form-group">
+        <label for="username">User name</label>
+        <input type="text" name="username" required [formControl]="userName" [(ngModel)]="username" class="form-control"/>
+        <ul class="text-danger list-unstyled" *ngIf="userName.dirty && userName.invalid">
+            <li *ngIf="userName.errors?.['required']">You must enter User Name</li>
+        </ul>
+    </div>
+    <div class="form-group">
+        <label for="password">password</label>
+        <input type="password" name="password" required minlength="8" [formControl]="pass" [(ngModel)]="password" 
+        class="form-control"/>
+        <ul class="text-danger list-unstyled" *ngIf="pass.dirty && pass.invalid">
+            <li *ngIf="pass.errors?.['required']">You must enter password</li>
+            <li *ngIf="pass.errors?.['minlength']">Password is equal or longer than 8 characters</li>
+        </ul>
+    </div>
+    <button (click)="Login()" class="btn btn-primary" [disabled]="pass.invalid || userName.invalid">Log In</button>
+</form>

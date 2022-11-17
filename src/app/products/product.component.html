@@ -1,0 +1,26 @@
+
+<h1>{{getProducts.length}}</h1>
+<div class="cards">
+    <div class="card" style="width: 18rem;" *ngFor="let product of getProducts" >
+        <div class="card-body">
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="card-text">Price {{discountPrice(product)|currency:'usd':true}}  Discount: {{product.discount}}%</p>
+          <p class="card-text">Original Price: {{product.price}}</p>
+          <button (click)="remove(product.id);" class="btn btn-outline-danger">Remove</button>
+        </div>
+      </div>
+
+
+      <div class="card" style="width: 18rem;"  >
+        <div class="card-body">
+          <h5 class="card-title">New Product</h5>
+          <label for="newProductName">Name</label>
+          <input type="text" [(ngModel)]="newProduct.name" name="newProductName" class="form-control"/>
+          <label for="newProductPrice">Price</label>
+          <input type="number" [(ngModel)]="newProduct.price" name="newProductPrice" class="form-control"/>
+          <label for="newProductDiscount">Discount for this product</label>
+          <input type="number" [(ngModel)]="newProduct.discount" name="newProductDiscount" class="form-control"/>
+          <button (click)="saveProduct()" class="btn btn-outline-primary">Add</button>
+        </div>
+      </div>
+</div>
