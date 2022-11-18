@@ -6,12 +6,12 @@
           <h5 class="card-title">{{product.name}}</h5>
           <p class="card-text">Price {{discountPrice(product)|currency:'usd':true}}  Discount: {{product.discount}}%</p>
           <p class="card-text">Original Price: {{product.price}}</p>
-          <button (click)="remove(product.id);" class="btn btn-outline-danger">Remove</button>
+          <button (click)="remove(product.id);" *ngIf="getIsAdmin"  class="btn btn-outline-danger">Remove</button>
         </div>
       </div>
 
 
-      <div class="card" style="width: 18rem;"  >
+      <div class="card" style="width: 18rem;" *ngIf="getIsAdmin"  >
         <div class="card-body">
           <h5 class="card-title">New Product</h5>
           <label for="newProductName">Name</label>

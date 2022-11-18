@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { Product } from "../model/product.model";
+import { isAdmin } from "../services/isAdmin.function";
 import { ProductService } from "../services/product.service";
 
 
@@ -11,7 +13,7 @@ import { ProductService } from "../services/product.service";
 })
 export class ProductComponent implements OnInit{
 
-    constructor(private service: ProductService){ 
+    constructor(private service: ProductService, private jwtHelper: JwtHelperService){ 
         service.getProducts().subscribe(x => { this.data = x });
       }
 
@@ -25,6 +27,10 @@ export class ProductComponent implements OnInit{
 
     get getProducts(){
         return this.data;
+    }
+
+    get getIsAdmin(){
+        return isAdmin(this.jwtHelper);
     }
 
     discountPrice(product: Product): number {
