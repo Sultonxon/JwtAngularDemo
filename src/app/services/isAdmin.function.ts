@@ -7,7 +7,7 @@ export function isAdmin(jwtHelper: JwtHelperService): boolean {
         let decodedToken = jwtHelper.decodeToken(token);
         if(decodedToken){
             
-            console.log(decodedToken[roleIndex]);
+            console.log(decodedToken);
             if(decodedToken[roleIndex][0].toLowerCase()==="admin" 
             || decodedToken[roleIndex][1].toLowerCase()==="admin" 
             || decodedToken[roleIndex].toLowerCase() === "admin"){

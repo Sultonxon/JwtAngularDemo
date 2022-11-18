@@ -11,10 +11,7 @@ export class ProductService{
     }
 
     getProducts(): Observable<Array<Product>> {
-        return this.http.get<Array<Product>>(
-            "https://localhost:44342/api/Product",
-            { headers: { "Authorization": localStorage.getItem("jwt")??"" }}
-        )
+        return this.http.get<Array<Product>>("https://localhost:44342/api/Product");
     }
 
     getProduct(id: number): Product{
@@ -30,11 +27,11 @@ export class ProductService{
     }
 
     createProduct(product: Product) {
-        this.http.put("https://localhost:44342/api/Product", product).subscribe(x => {});
+        return this.http.put("https://localhost:44342/api/Product", product);
     }
 
     deleteProduct(id: number) {
-        this.http.delete("https://localhost:44342/api/Product/" + id).subscribe(x => {});
+        return this.http.delete("https://localhost:44342/api/Product/" + id);
     }
 }
 

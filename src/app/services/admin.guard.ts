@@ -18,11 +18,12 @@ export class AdminGuard implements CanActivate {
             let decodedToken = this.jwtHelper.decodeToken(token);
 
             if(decodedToken[roleIndex][0].toLowerCase()==="admin" 
-                || decodedToken[roleIndex][1].toLowerCase()==="admin")
+                || decodedToken[roleIndex][1].toLowerCase()==="admin" 
+                || decodedToken[roleIndex].toLowerCase() === "admin")
                     return true;
          }
 
-         this.router.navigate(["login"]);
+         this.router.navigate(["login", this.router.url]);
          return false;
      }
 }

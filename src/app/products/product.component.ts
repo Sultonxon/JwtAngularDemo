@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { FormControl } from "@angular/forms";
 import { Product } from "../model/product.model";
 import { ProductService } from "../services/product.service";
 
@@ -18,6 +19,10 @@ export class ProductComponent implements OnInit{
 
     public newProduct: Product = new Product();
 
+    public name:FormControl  = new FormControl();
+    public price: FormControl = new FormControl();
+    public discount: FormControl = new FormControl();
+
     get getProducts(){
         return this.data;
     }
@@ -31,13 +36,22 @@ export class ProductComponent implements OnInit{
     }
 
     remove(id?: number) {
-        this.service.deleteProduct(id||0);
+        this.service.deleteProduct(id||0).subscribe(x => 
+            {
+                console.log("deleted");
+                this.service.getProducts().subscribe(x => { this.data = x });
+            });
     }
 
     saveProduct(){
         console.log(this.newProduct);
-        this.service.createProduct(this.newProduct);
-        this.newProduct = new Product();
+        this.service.createProduct(this.newProduct).subscribe(x => 
+            {
+                console.log("product created");
+                this.newProduct = new Product();
+                this.service.getProducts().subscribe(x => { this.data = x });
+            })
+        
     }
 
 
