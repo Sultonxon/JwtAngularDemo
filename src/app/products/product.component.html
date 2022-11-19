@@ -2,10 +2,13 @@
 <h1>{{getProducts.length}}</h1>
 <div class="cards">
     <div class="card" style="width: 18rem;" *ngFor="let product of getProducts" >
+        
+        <img [src]="'https://localhost:44342/' + product.img" class="card-img-top" >
         <div class="card-body">
           <h5 class="card-title">{{product.name}}</h5>
           <p class="card-text">Price {{discountPrice(product)|currency:'usd':true}}  Discount: {{product.discount}}%</p>
           <p class="card-text">Original Price: {{product.price}}</p>
+          <p class="card-text">Original Price: {{product.img}}</p>
           <button (click)="remove(product.id);" *ngIf="getIsAdmin"  class="btn btn-outline-danger">Remove</button>
         </div>
       </div>
@@ -29,7 +32,11 @@
           <p class="text-danger" *ngIf="discount.dirty && discount.invalid && discount.errors?.['required']">
             You must enter discount
           </p>
-          <button (click)="saveProduct()" [disabled]="name.invalid || price.invalid || discount.invalid" class="btn btn-outline-primary">Add</button>
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Default file input example</label>
+            <input class="form-control" #imgs [(ngModel)]="imgFile" [formControl]="img" (change)="log()" accept="" type="file" id="formFile">
+          </div>
+          <button (click)="saveProduct(imgs)" [disabled]="name.invalid || price.invalid || discount.invalid" class="btn btn-outline-primary">Add</button>
         </div>
       </div>
 </div>

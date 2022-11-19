@@ -33,5 +33,16 @@ export class ProductService{
     deleteProduct(id: number) {
         return this.http.delete("https://localhost:44342/api/Product/" + id);
     }
+
+    uploadImage(img: Blob){
+        let formData: FormData = new FormData();
+        console.log(img);
+        formData.append("x",<File> img, "abc.json");
+        return this.http.put<{fileName: string}>("https://localhost:44342/api/Product/img", formData);
+    }
+
+    isImgExist(name: string): Observable<boolean>{
+        return this.http.get<boolean>("https://localhost:44342/api/Product/imgexist/" + name);
+    }
 }
 
