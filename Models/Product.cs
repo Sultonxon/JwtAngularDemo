@@ -9,4 +9,6 @@ public class Product
     public decimal Price { get; set; }
 
     public int Discount { get; set; }
+
+    public string Img { get; set; }
 }

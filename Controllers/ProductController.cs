@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Google.Api.Gax.Grpc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -42,6 +44,34 @@ namespace ProductApi.Controllers
             _productService.CreateProduct(value);
         }
 
+        [HttpPut("img")]
+        public IActionResult ImgUpload()
+        {
+            var img = Request.Form.Files[0];
+
+            Console.WriteLine("===================>Fayl; Saqlandi");
+
+            if(!ModelState.IsValid)
+            {
+                ModelState.Values.ToList().ForEach(x => Console.WriteLine($"=============> {x.Errors[0].ErrorMessage}"));
+            }
+
+            string fileName = Path.Combine(Guid.NewGuid().ToString() + img.FileName);
+
+            var file = new FileStream(
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName),
+                FileMode.Create);
+
+            img.CopyTo(file);
+            return Ok(new { fileName });
+        }
+
+        [HttpGet("imgexist/{name}")]
+        public IActionResult IsImgExist(string name)
+        {
+            return Ok(new { exist = System.IO.File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", name)) });
+        }//{ exist: true}
+
         // DELETE api/<ProducController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
@@ -50,3 +80,4 @@ namespace ProductApi.Controllers
         }
     }
 }
+

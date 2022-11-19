@@ -88,7 +88,11 @@ namespace ProductApi.Controllers
                 ErrorMessage = { "This password is invalid" }
             });
 
-            List<Claim> claims = new List<Claim> { new Claim(ClaimTypes.Name, user.UserName) };
+            List<Claim> claims = new List<Claim> 
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id)
+                };
             foreach (var role in _roleManager.Roles)
             {
                 if (await _userManager.IsInRoleAsync(user, role.Name))
