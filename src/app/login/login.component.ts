@@ -3,6 +3,8 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LoginResponseDto } from "../model/loginResponseDto.model";
+import { UserDto } from "../model/user.model";
+import { AuthService } from "../services/auth.service";
 
 
 @Component({
@@ -12,7 +14,7 @@ import { LoginResponseDto } from "../model/loginResponseDto.model";
 })
 export class LoginComponent implements OnInit{
 
-    constructor(private http: HttpClient, private router: Router, private url: ActivatedRoute) { }
+    constructor(private auth: AuthService , private router: Router, private url: ActivatedRoute) { }
 
     public username:string = "";
     public password: string= "";
@@ -25,22 +27,14 @@ export class LoginComponent implements OnInit{
 
 
     Login = ()=>{
-        var response: LoginResponseDto = new LoginResponseDto();
         if(!window.confirm("Would you like to log in")){
             return;
         }
 
-        this.http.post<LoginResponseDto>("https://localhost:44342/api/Auth/login",
-                    {"userName": this.username, "password": this.password })
-                    .subscribe(r=>{
+       this.auth.login(new UserDto(this.username, undefined, this.password)).subscribe(r=>{
                         this.logged = r.isAuthSuccessful ? true: false;
                         if(r.isAuthSuccessful){
                             localStorage.setItem("jwt",r.token ? r.token : "");
-                        }
-                        else{
-                            r.errorMessage?.forEach(x => this.errors.push(x));
-                        }
-                        if(r.isAuthSuccessful){
                             window.alert("You have signed in successfully!");
                             let returnUrl = "";
                             this.username = '';
@@ -48,6 +42,9 @@ export class LoginComponent implements OnInit{
                             
                             this.url.params.subscribe(x => returnUrl = x["returnUrl"]);
                             this.router.navigateByUrl(returnUrl);
+                        }
+                        else{
+                            r.errorMessage?.forEach(x => this.errors.push(x));
                         }
                     });
         

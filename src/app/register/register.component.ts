@@ -1,8 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { R3SelectorScopeMode } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
 import { UserDto } from '../model/user.model';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-register',
@@ -11,7 +14,7 @@ import { UserDto } from '../model/user.model';
 })
 export class RegisterComponent implements OnInit {
 
-    constructor(private http: HttpClient, private router: Router, private url: ActivatedRoute) { }
+    constructor(private auth: AuthService, private router: Router, private url: ActivatedRoute) { }
 
     newUser: UserDto = new UserDto();
 
@@ -31,19 +34,21 @@ export class RegisterComponent implements OnInit {
 
     submitForm = ()=>{
         console.log("Submition");
-        this.http.post("https://localhost:44342/api/Auth/register",{
-            userName: this.newUser.username,
-            email: this.newUser.email,
-            password: this.newUser.password
-        }).subscribe(x => {})
-        
-        let returnUrl = '';
-        this.url.params.subscribe(x => {
-            returnUrl = x["returnUrl"];
-        })
+        this.auth.signup(this.newUser).subscribe(x => {
+             var res = <HttpResponse<Object>>x;
 
-        this.router.navigateByUrl(returnUrl);
-        console.log(this.newUser);
+             if(res.status === 200 || res.status === 201){
+                let returnUrl = '';
+                this.url.params.subscribe(x => {
+                    returnUrl = x["returnUrl"];
+                })
+        
+                this.router.navigateByUrl(returnUrl);
+                console.log(this.newUser);
+             }             
+        })
+        
+        
     }
 
     ngOnInit(): void {

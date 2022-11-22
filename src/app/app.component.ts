@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { AfterContentChecked, Component, DoCheck, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from './services/auth.service';
 import { isAdmin } from './services/isAdmin.function';
 import { isUser } from './services/isUser.function';
 
@@ -13,7 +14,7 @@ import { isUser } from './services/isUser.function';
 export class AppComponent implements DoCheck, OnChanges, AfterContentChecked {
   title = 'angularIO';
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, public router: Router, private url: ActivatedRoute) { 
+  constructor(private auth: AuthService, private jwtHelper: JwtHelperService, public router: Router, private url: ActivatedRoute) { 
     this.isAdmin = isAdmin(jwtHelper);
     this.isUser = isUser(jwtHelper);
   }
@@ -40,8 +41,7 @@ export class AppComponent implements DoCheck, OnChanges, AfterContentChecked {
   }
 
   public signOut(): void{
-    localStorage.removeItem("jwt");
-    this.http.post("https://localhost:44342/api/Auth/logout",{});
+    this.auth.logout();
   }
 
 }
