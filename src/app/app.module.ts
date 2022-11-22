@@ -13,7 +13,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RegisterComponent } from './register/register.component';
 import { ProductService } from './services/product.service';
-import { ValidationComponent } from './validation/validation.component';
 
 export function tokenGetter(){
   
@@ -23,7 +22,7 @@ export function tokenGetter(){
 
 @NgModule({
   declarations: [
-    AppComponent, HomeComponent, LoginComponent, ProductComponent, RegisterComponent, ValidationComponent
+    AppComponent, HomeComponent, LoginComponent, ProductComponent, RegisterComponent
 
   ],
   imports: [

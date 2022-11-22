@@ -3,7 +3,7 @@ import { roleIndex } from "./admin.guard";
 
 export function isAdmin(jwtHelper: JwtHelperService): boolean {
     let token = localStorage.getItem("jwt");
-    if(token){
+    if(token && !jwtHelper.isTokenExpired(token)){
         let decodedToken = jwtHelper.decodeToken(token);
         if(decodedToken){
             

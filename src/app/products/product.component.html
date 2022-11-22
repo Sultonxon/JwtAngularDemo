@@ -34,7 +34,7 @@
           </p>
           <div class="mb-3">
             <label for="formFile" class="form-label">Default file input example</label>
-            <input class="form-control" #imgs [(ngModel)]="imgFile" [formControl]="img" (change)="log()" accept="" type="file" id="formFile">
+            <input class="form-control" #imgs [(ngModel)]="imgFile" [formControl]="img" accept="" type="file" id="formFile">
           </div>
           <button (click)="saveProduct(imgs)" [disabled]="name.invalid || price.invalid || discount.invalid" class="btn btn-outline-primary">Add</button>
         </div>
